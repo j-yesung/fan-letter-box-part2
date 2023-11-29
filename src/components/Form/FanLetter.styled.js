@@ -22,6 +22,7 @@ export const LetterContainer = styled.ul`
   width: 300px;
   height: 600px;
   overflow-y: scroll;
+  cursor: pointer;
 `;
 export const Letters = styled.li`
   background-color: beige;

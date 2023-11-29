@@ -5,19 +5,18 @@ import { getFormattedDate } from 'util/date';
 import { members } from 'util/member';
 import * as S from './FanLetter.styled';
 import shortid from 'shortid';
+import { useNavigate } from 'react-router-dom';
 
 const FanLetter = ({ activeMember }) => {
   console.log('🚀 ~ 멤버 이름 > ', activeMember);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const fanLetterBox = useSelector(state => state.fanLetter.fanLetter);
-  // console.log('fanLetterBox: ', fanLetterBox);
   /**
    * TODO : ref 고려하기
    */
   const [newLetter, setNewLetter] = useState({ content: '', member: '민지' });
-  console.log('newLetter: ', newLetter);
   const [editingLetter, setEditingLetter] = useState(null);
-  // console.log('SelectorRef: ', SelectorRef.current.value);
 
   // 조회
   useEffect(() => {
@@ -43,8 +42,6 @@ const FanLetter = ({ activeMember }) => {
   };
   // 삭제
   const handleDeleteLetter = id => dispatch(__deleteLetter(id));
-
-  console.log('newLetter', newLetter.member);
 
   return (
     <S.FormContainer>
@@ -74,7 +71,7 @@ const FanLetter = ({ activeMember }) => {
           fanLetterBox
             .filter(item => item.member === activeMember)
             .map(item => (
-              <S.Letters key={item.id}>
+              <S.Letters key={item.id} onClick={() => navigate(`/content/${item.id}`)}>
                 {editingLetter?.id === item.id ? (
                   <>
                     {/* 유저 정보로 변경해야 합니다. */}
