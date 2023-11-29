@@ -1,17 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const SectionContainer = styled.section`
+const FooterContainer = styled.footer`
   display: flex;
   justify-content: center;
+  margin: 50px;
 `;
 
-const Section = () => {
+const Footer = () => {
   return (
     <>
-      <SectionContainer>Section</SectionContainer>
+      <FooterContainer>Footer</FooterContainer>
     </>
   );
 };
 
-export default Section;
+export default Footer;
