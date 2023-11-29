@@ -1,11 +1,11 @@
-import api from '../../axios/api';
+import API from '../../axios/api';
 
 const { createSlice, createAsyncThunk } = require('@reduxjs/toolkit');
 
 // 등록
 export const __addLetter = createAsyncThunk('fanLetter/addLetter', async (payload, thunkAPI) => {
   try {
-    const response = await api.post('/fanLetter', payload);
+    const response = await API.post('/fanLetter', payload);
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     return thunkAPI.rejectWithValue('공습 경보!' + error);
@@ -14,7 +14,7 @@ export const __addLetter = createAsyncThunk('fanLetter/addLetter', async (payloa
 // 조회
 export const __fetchLetter = createAsyncThunk('fanLetter/fetchLetter', async (payload, thunkAPI) => {
   try {
-    const response = await api.get('/fanLetter');
+    const response = await API.get('/fanLetter');
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     return thunkAPI.rejectWithValue('공습 경보!' + error);
@@ -25,7 +25,7 @@ export const __updateLetter = createAsyncThunk('fanLetter/updateLetter', async (
   try {
     const { id, title, content } = payload;
     // json-server 경로 찾아가서 새로운 데이터로 바꿔주기
-    const response = await api.patch(`/fanLetter/${id}`, { title, content });
+    const response = await API.patch(`/fanLetter/${id}`, { title, content });
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     return thunkAPI.rejectWithValue('공습 경보!' + error);
@@ -34,7 +34,7 @@ export const __updateLetter = createAsyncThunk('fanLetter/updateLetter', async (
 // 삭제
 export const __deleteLetter = createAsyncThunk('fanLetter/deleteLetter', async (payload, thunkAPI) => {
   try {
-    await api.delete(`/fanLetter/${payload}`);
+    await API.delete(`/fanLetter/${payload}`);
     return payload;
   } catch (error) {
     return thunkAPI.rejectWithValue('공습 경보!' + error);
