@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { fanLetterSlice } from './features/fanLetterSlice';
+import fanLetterSlice from 'redux/modules/fanLetterSlice';
 
 const store = configureStore({
   reducer: {
