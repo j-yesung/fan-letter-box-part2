@@ -22,7 +22,7 @@ const SignUp = () => {
       .then(res => {
         console.log(res.data); // { message: '회원가입 완료', success: true }
         alert(`${res.data.message}`);
-        navigate('/login');
+        navigate('/');
       })
       .catch(err => {
         console.error('회원가입 실패', err.message);
@@ -49,7 +49,7 @@ const SignUp = () => {
             <S.USER_BUTTON onClick={handleSignUp}>회원가입</S.USER_BUTTON>
           </div>
         </form>
-        <S.CAPTION onClick={() => navigate('/login')}>로그인</S.CAPTION>
+        <S.CAPTION onClick={() => navigate('/')}>로그인</S.CAPTION>
       </S.USER_CONTAINER>
     </>
   );

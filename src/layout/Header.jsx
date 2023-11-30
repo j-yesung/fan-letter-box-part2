@@ -25,8 +25,17 @@ const Header = () => {
         <HeaderLogo>New Jeans</HeaderLogo>
         <HeaderButtons>
           <button onClick={() => navigate('/')}>홈으로</button>
-          <button onClick={() => navigate('/login')}>로그인</button>
-          <button onClick={() => navigate('/signup')}>회원가입</button>
+          {ACCESS_TOKEN ? (
+            <>
+              <button onClick={() => navigate('/mypage')}>마이페이지</button>
+              <button onClick={handleLogout}>로그아웃</button>
+            </>
+          ) : (
+            <>
+              <button onClick={() => navigate('/')}>로그인</button>
+              <button onClick={() => navigate('/signup')}>회원가입</button>
+            </>
+          )}
         </HeaderButtons>
       </HeaderContainer>
     </>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import * as S from './User.styled.js';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -19,7 +19,7 @@ const Login = () => {
       const ACCESS_TOKEN = RESPONSE.data.accessToken;
       dispatch(setAccessToken(ACCESS_TOKEN));
       localStorage.setItem('ACCESS_TOKEN', ACCESS_TOKEN);
-      navigate('/');
+      navigate('/home');
     } catch (err) {
       console.error('로그인 실패', err.message);
     }
