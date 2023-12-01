@@ -1,24 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import API from '../../apis/api/user';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchUserInfo } from 'redux/modules/authSlice';
+import { useSelector } from 'react-redux';
 import userDefaultImg from 'assets/user.svg';
 import * as S from './User.styled.js';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Profile = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const ACCESS_TOKEN = localStorage.getItem('ACCESS_TOKEN');
-  const { userInfo, loading } = useSelector(state => state.userInfo);
-  const nicknameRef = useRef();
-  const imgRef = useRef();
-
-  const [img, setImg] = useState();
+  const loading = useSelector(state => state.userInfo.loading);
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  const [img, setImg] = useState(userInfo.avatar || userDefaultImg);
   const [nickname, setNickname] = useState();
   const [isEditing, setIsEditing] = useState(false);
-
-  console.log('userInfo ', userInfo);
+  const nicknameRef = useRef();
+  const imgRef = useRef();
 
   /**
    * TODO : 에러 핸들링
@@ -38,30 +33,43 @@ const Profile = () => {
   // 회원 정보 수정
   const handleChangeUserInfo = async () => {
     const formData = new FormData();
-    formData.append('avatar', imgRef.current.files[0]);
+    formData.append('avatar', imgRef.current.files[0] || setImg(img));
     formData.append('nickname', nicknameRef.current.value);
 
-    const response = await API.patch('/profile', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${ACCESS_TOKEN}`,
-      },
-    });
-    setNickname(response.data.nickname);
-    setImg(response.data.avatar);
+    try {
+      const response = await API.patch('/profile', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${userInfo.accessToken}`,
+        },
+      });
+      toast.success(`${response.data.message}`);
+      const data = response.data;
+      // 로컬 스토리지 상태 값 변경 후, 다시 setItem 해주기
+      if (data.hasOwnProperty('avatar')) {
+        userInfo.avatar = data.avatar;
+        userInfo.nickname = data.nickname;
+      } else {
+        userInfo.nickname = data.nickname;
+      }
+      localStorage.setItem('userInfo', JSON.stringify(userInfo));
+      setNickname(userInfo.nickname);
+    } catch (error) {
+      toast.error(`${error.response.data.message}`);
+      console.log(error.response.data.message);
+    }
   };
 
   return (
     <>
-      {/* 닉네임 변경, 이미지 업로드 */}
       {loading && <div>로딩중...</div>}
       <S.WRAPPER>
-        <S.USER_CONTAINER>
+        <S.PROFILE_CONTAINER>
           {!loading ? (
             userInfo && (
               <>
                 <S.USER_IMG_WRAPPER>
-                  <S.USER_IMG src={img || userInfo.avatar || userDefaultImg} width={260} alt="사진 없음" />
+                  <S.USER_IMG src={img} width={260} alt="사진 없음" />
                 </S.USER_IMG_WRAPPER>
                 {isEditing ? (
                   <S.INPUT_WRAPPER>
@@ -94,8 +102,9 @@ const Profile = () => {
           ) : (
             <div>로딩중...</div>
           )}
-        </S.USER_CONTAINER>
+        </S.PROFILE_CONTAINER>
       </S.WRAPPER>
+      <ToastContainer autoClose={1000} />
     </>
   );
 };
