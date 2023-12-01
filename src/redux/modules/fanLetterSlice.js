@@ -40,9 +40,6 @@ export const __deleteLetter = createAsyncThunk('fanLetter/deleteLetter', async (
   }
 });
 
-/**
- * TODO : error, loading 핸들링 진행
- */
 const initialState = {
   fanLetter: [],
   loading: false,

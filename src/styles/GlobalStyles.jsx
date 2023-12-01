@@ -10,7 +10,6 @@ const GlobalStyles = createGlobalStyle`
   
   body {
     font-family: 'Pretendard-Regular';
-    background-color: azure;
   }
 
 `;

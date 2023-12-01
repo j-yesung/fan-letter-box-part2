@@ -41,7 +41,6 @@ const Modal = ({ isOpen, closeModal, id }) => {
   useEffect(() => {
     if (id && fanLetterBox) {
       const data = fanLetterBox.find(item => item.id === id);
-      console.log('data: ', data);
       setFindLetterData(data);
     }
   }, [id, fanLetterBox]);
@@ -50,7 +49,6 @@ const Modal = ({ isOpen, closeModal, id }) => {
     <ModalWrapper $isOpen={isOpen}>
       <ModalContent>
         <ModalCloseButton onClick={closeModal}>&times;</ModalCloseButton>
-        dd
         {findLetterData && (
           <div key={findLetterData.id}>
             <p>닉네임 : {findLetterData.member}</p>

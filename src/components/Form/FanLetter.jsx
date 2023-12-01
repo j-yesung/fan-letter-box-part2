@@ -16,7 +16,6 @@ const FanLetter = ({ activeMember }) => {
   console.log('🚀 ~ 멤버 이름 > ', activeMember);
   const dispatch = useDispatch();
   const fanLetterBox = useSelector(state => state.fanLetter.fanLetter);
-  const ACCESS_TOKEN = useSelector(state => state.userInfo.accessToken);
 
   /**
    * TODO : ref 고려하기
