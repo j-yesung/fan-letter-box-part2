@@ -3,7 +3,7 @@ import * as S from './User.styled.js';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import API from '../../apis/api/user';
-import { setAccessToken } from 'redux/modules/userInfoSlice.js';
+import { setAccessToken } from 'redux/modules/authSlice.js';
 
 const Login = () => {
   const navigate = useNavigate();
