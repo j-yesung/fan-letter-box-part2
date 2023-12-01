@@ -1,6 +1,5 @@
-import API from '../../axios/api';
-
-const { createSlice, createAsyncThunk } = require('@reduxjs/toolkit');
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import API from '../../apis/api/data';
 
 // 등록
 export const __addLetter = createAsyncThunk('fanLetter/addLetter', async (payload, thunkAPI) => {
@@ -41,8 +40,13 @@ export const __deleteLetter = createAsyncThunk('fanLetter/deleteLetter', async (
   }
 });
 
+/**
+ * TODO : error, loading 핸들링 진행
+ */
 const initialState = {
   fanLetter: [],
+  loading: false,
+  error: null,
 };
 
 const fanLetterSlice = createSlice({
@@ -52,15 +56,38 @@ const fanLetterSlice = createSlice({
   extraReducers: builder => {
     builder
       // 등록
+      .addCase(__addLetter.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(__addLetter.fulfilled, (state, action) => {
+        state.loading = false;
         state.fanLetter.push(action.payload);
       })
+      .addCase(__addLetter.rejected, (state, action) => {
+        state.loading = true;
+        state.error = action.payload.message;
+      })
       // 조회
+      .addCase(__fetchLetter.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(__fetchLetter.fulfilled, (state, action) => {
+        state.loading = false;
         state.fanLetter = action.payload;
       })
+      .addCase(__fetchLetter.rejected, (state, action) => {
+        state.loading = true;
+        state.error = action.payload.message;
+      })
       // 수정
+      .addCase(__updateLetter.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(__updateLetter.fulfilled, (state, action) => {
+        state.loading = false;
         state.fanLetter = state.fanLetter.map(item => {
           if (item.id === action.payload.id) {
             return action.payload;
@@ -68,10 +95,22 @@ const fanLetterSlice = createSlice({
           return item;
         });
       })
+      .addCase(__updateLetter.rejected, (state, action) => {
+        state.loading = true;
+        state.error = action.payload.message;
+      })
       // 삭제
+      .addCase(__deleteLetter.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(__deleteLetter.fulfilled, (state, action) => {
-        const id = action.payload;
-        state.fanLetter = state.fanLetter.filter(item => item.id !== id);
+        state.loading = false;
+        state.fanLetter = state.fanLetter.filter(item => item.id !== action.payload);
+      })
+      .addCase(__deleteLetter.rejected, (state, action) => {
+        state.loading = true;
+        state.error = action.payload.message;
       });
   },
 });
