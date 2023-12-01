@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { setAccessToken } from 'redux/modules/userInfoSlice';
+import { setAccessToken } from 'redux/modules/authSlice';
 import styled from 'styled-components';
 
 const HeaderContainer = styled.header`
