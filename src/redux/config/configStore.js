@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import fanLetterSlice from 'redux/modules/fanLetterSlice';
-import userInfoSlice from 'redux/modules/userInfoSlice';
+import userInfoSlice from 'redux/modules/authSlice';
 
 const store = configureStore({
   reducer: {
