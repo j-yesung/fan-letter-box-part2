@@ -1,42 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import styled from 'styled-components';
-
-const ModalWrapper = styled.div`
-  display: ${props => (props.$isOpen ? 'block' : 'none')};
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 999;
-`;
-
-const ModalContent = styled.div`
-  background: #fff;
-  width: 60%;
-  max-width: 500px;
-  margin: 100px auto;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-`;
-
-const ModalCloseButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 18px;
-  color: #555;
-`;
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { __deleteLetter, __updateLetter } from 'redux/modules/fanLetterSlice';
+import * as S from './Modal.styled';
 
 const Modal = ({ isOpen, closeModal, id }) => {
+  const dispatch = useDispatch();
   const fanLetterBox = useSelector(state => state.fanLetter.fanLetter);
-  const [findLetterData, setFindLetterData] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [findLetterData, setFindLetterData] = useState();
+  const [editingLetter, setEditingLetter] = useState({ id: '', content: '' });
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  const editContentRef = useRef();
+  const modalRef = useRef();
+  // console.log('userInfo: ', userInfo);
 
   useEffect(() => {
     if (id && fanLetterBox) {
@@ -45,19 +21,70 @@ const Modal = ({ isOpen, closeModal, id }) => {
     }
   }, [id, fanLetterBox]);
 
+  // 수정
+  const handleEditLetter = data => {
+    setEditingLetter(data);
+    setIsEditing(true);
+  };
+
+  // 수정완료
+  const handleUpdateLetter = () => {
+    const updatedLetter = { id: findLetterData.id, content: editContentRef.current.value };
+    dispatch(__updateLetter(updatedLetter));
+    setEditingLetter(null);
+    setIsEditing(false);
+  };
+  // 삭제
+  const handleDeleteLetter = id => {
+    dispatch(__deleteLetter(id));
+    closeModal();
+  };
+
+  const modalOutSideClick = e => {
+    if (modalRef.current === e.target) {
+      closeModal();
+    }
+  };
+
   return (
-    <ModalWrapper $isOpen={isOpen}>
-      <ModalContent>
-        <ModalCloseButton onClick={closeModal}>&times;</ModalCloseButton>
+    <S.ModalWrapper $isOpen={isOpen} ref={modalRef} onClick={modalOutSideClick}>
+      <S.ModalContent>
         {findLetterData && (
-          <div key={findLetterData.id}>
-            <p>닉네임 : {findLetterData.member}</p>
-            <p>내용 : {findLetterData.content}</p>
-            <p>날짜 : {findLetterData.date}</p>
-          </div>
+          <>
+            <div key={findLetterData.id}>
+              <S.ProfileWrapper>
+                <S.Box1>
+                  <img src={userInfo.avatar} width={50} alt="사진" />
+                  <p>{userInfo.nickname}</p>
+                </S.Box1>
+                <S.Box2>
+                  <p>{findLetterData.date}</p>
+                </S.Box2>
+              </S.ProfileWrapper>
+              <S.MemberName>{findLetterData.member}에게..</S.MemberName>
+              {isEditing ? (
+                <S.TextArea ref={editContentRef} defaultValue={findLetterData.content} />
+              ) : (
+                <S.LetterContent>{findLetterData.content}</S.LetterContent>
+              )}
+            </div>
+            <S.ButtonsWrapper>
+              {isEditing ? (
+                <>
+                  <button onClick={handleUpdateLetter}>수정완료</button>
+                  <button onClick={() => setIsEditing(false)}>취소</button>
+                </>
+              ) : (
+                <>
+                  <button onClick={() => handleDeleteLetter(findLetterData.id)}>삭제</button>
+                  <button onClick={() => handleEditLetter(editingLetter)}>수정</button>
+                </>
+              )}
+            </S.ButtonsWrapper>
+          </>
         )}
-      </ModalContent>
-    </ModalWrapper>
+      </S.ModalContent>
+    </S.ModalWrapper>
   );
 };
 

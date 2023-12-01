@@ -5,6 +5,7 @@ export const FormContainer = styled.div`
   align-items: center;
   flex-direction: column;
   justify-content: center;
+  height: 750px;
 `;
 export const Form = styled.div`
   display: flex;

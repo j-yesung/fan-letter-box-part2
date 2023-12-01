@@ -21,10 +21,11 @@ export const __fetchLetter = createAsyncThunk('fanLetter/fetchLetter', async (pa
 });
 // 수정
 export const __updateLetter = createAsyncThunk('fanLetter/updateLetter', async (payload, thunkAPI) => {
+  console.log('payload: ', payload);
   try {
-    const { id, title, content } = payload;
+    const { id, content } = payload;
     // json-server 경로 찾아가서 새로운 데이터로 바꿔주기
-    const response = await API.patch(`/fanLetter/${id}`, { title, content });
+    const response = await API.patch(`/fanLetter/${id}`, { content });
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     return thunkAPI.rejectWithValue('공습 경보!' + error);
