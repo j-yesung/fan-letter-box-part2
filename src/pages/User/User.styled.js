@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const WRAPPER = styled.div`
   height: 750px;
 `;
-
 export const USER_CONTAINER = styled.div`
   background-color: #fff;
   position: absolute;

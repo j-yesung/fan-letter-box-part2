@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const USER_INSTANCE = axios.create({
+const userInstance = axios.create({
   baseURL: process.env.REACT_APP_AUTH_SERVER_URL,
 });
 
-USER_INSTANCE.interceptors.request.use(
+userInstance.interceptors.request.use(
   config => {
     return config;
   },
@@ -14,7 +14,7 @@ USER_INSTANCE.interceptors.request.use(
   },
 );
 
-USER_INSTANCE.interceptors.response.use(
+userInstance.interceptors.response.use(
   response => {
     return response;
   },
@@ -24,4 +24,4 @@ USER_INSTANCE.interceptors.response.use(
   },
 );
 
-export default USER_INSTANCE;
+export default userInstance;

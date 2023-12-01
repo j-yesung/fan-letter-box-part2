@@ -24,16 +24,6 @@ const Profile = () => {
    * TODO : 에러 핸들링
    */
 
-  // 유저 정보 확인
-  useEffect(() => {
-    if (ACCESS_TOKEN) {
-      dispatch(fetchUserInfo(ACCESS_TOKEN));
-    } else {
-      alert('로그인을 해주세요.');
-      navigate('/');
-    }
-  }, [dispatch, navigate, ACCESS_TOKEN]);
-
   // 이미지 미리보기
   const handleImageUpload = e => {
     if (e.target.files.length === 0) return; // 폴더 열리고 취소 클릭 시

@@ -1,7 +1,7 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { setAccessToken } from 'redux/modules/authSlice';
+import { setUserInfo } from 'redux/modules/authSlice';
 import styled from 'styled-components';
 
 const HeaderContainer = styled.header`
@@ -17,17 +17,18 @@ const HeaderLogo = styled.h1`
 const HeaderButtons = styled.div`
   display: flex;
   gap: 10px;
+  align-items: center;
 `;
 
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const ACCESS_TOKEN = useSelector(state => state.userInfo.accessToken);
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
   const handleLogout = () => {
-    localStorage.removeItem('ACCESS_TOKEN');
-    dispatch(setAccessToken(null));
-    navigate('/home');
+    localStorage.removeItem('userInfo');
+    dispatch(setUserInfo(null));
+    navigate('/');
   };
 
   return (
@@ -35,8 +36,9 @@ const Header = () => {
       <HeaderContainer>
         <HeaderLogo onClick={() => navigate('/home')}>New Jeans</HeaderLogo>
         <HeaderButtons>
+          <p>{userInfo.nickname}님 안녕하세요.</p>
           <button onClick={() => navigate('/home')}>홈으로</button>
-          {ACCESS_TOKEN ? (
+          {userInfo.accessToken ? (
             <>
               <button onClick={() => navigate('/profile')}>마이페이지</button>
               <button onClick={handleLogout}>로그아웃</button>
