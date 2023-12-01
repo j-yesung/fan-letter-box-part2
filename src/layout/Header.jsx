@@ -12,6 +12,7 @@ const HeaderContainer = styled.header`
 const HeaderLogo = styled.h1`
   font-size: 30px;
   font-weight: 400;
+  cursor: pointer;
 `;
 const HeaderButtons = styled.div`
   display: flex;
@@ -22,11 +23,9 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const ACCESS_TOKEN = useSelector(state => state.userInfo.accessToken);
-  console.log('ACCESS_TOKEN: ', ACCESS_TOKEN);
 
   const handleLogout = () => {
     localStorage.removeItem('ACCESS_TOKEN');
-    // Redux store의 ACCESS_TOKEN 상태를 변경해줘야지 리렌더링 되면서 아래 조건부 버튼이 바로 변경된다.
     dispatch(setAccessToken(null));
     navigate('/home');
   };
@@ -34,12 +33,12 @@ const Header = () => {
   return (
     <>
       <HeaderContainer>
-        <HeaderLogo>New Jeans</HeaderLogo>
+        <HeaderLogo onClick={() => navigate('/home')}>New Jeans</HeaderLogo>
         <HeaderButtons>
-          <button onClick={() => navigate('/')}>홈으로</button>
+          <button onClick={() => navigate('/home')}>홈으로</button>
           {ACCESS_TOKEN ? (
             <>
-              <button onClick={() => navigate('/mypage')}>마이페이지</button>
+              <button onClick={() => navigate('/profile')}>마이페이지</button>
               <button onClick={handleLogout}>로그아웃</button>
             </>
           ) : (
