@@ -9,7 +9,7 @@ export const USER_CONTAINER = styled.div`
   left: 50%;
   top: 50%;
   width: 305px;
-  height: 305px;
+  height: 355px;
   transform: translate(-50%, -50%);
   padding: 20px;
   line-height: 2rem;
@@ -18,6 +18,9 @@ export const USER_CONTAINER = styled.div`
   max-width: 100%;
   border: 1px solid #ccc;
   box-shadow: 2px 2px 8px #ccc;
+`;
+export const PROFILE_CONTAINER = styled(USER_CONTAINER)`
+  height: 300px;
 `;
 export const USER_TITLE = styled.h1`
   display: flex;
@@ -39,6 +42,7 @@ export const USER_IMG = styled.img`
 `;
 export const INPUT_WRAPPER = styled.div`
   display: flex;
+  margin-top: 20px;
   justify-content: center;
 `;
 export const INPUT = styled.input`
@@ -53,6 +57,7 @@ export const INPUT = styled.input`
 `;
 export const USER_NAME_WRAPPER = styled.div`
   display: flex;
+  margin-top: 20px;
   justify-content: center;
 `;
 export const USER_NAME = styled(INPUT)``;
