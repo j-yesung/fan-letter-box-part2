@@ -14,7 +14,7 @@ const TokenTimer = () => {
 
   if (isTokenExpired(tokenExpitationTime)) {
     localStorage.removeItem('tokenExpitationTime');
-    toast.success('토큰이 만료되었습니다. 다시 로그인해 주세요.');
+    toast.success('토큰 만료로 재로그인이 필요합니다.');
     setTimeout(() => {
       navigate('/');
     }, 2000);

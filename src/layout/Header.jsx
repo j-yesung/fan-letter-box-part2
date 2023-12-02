@@ -38,8 +38,7 @@ const Header = () => {
       <HeaderContainer>
         <HeaderLogo onClick={() => navigate('/home')}>New Jeans</HeaderLogo>
         <HeaderButtons>
-          {/* 토큰 만료 시간 컴포넌트 */}
-          <TokenTimer />
+          <TokenTimer /> {/* 토큰 만료 시간 컴포넌트 */}
           <p>{userInfo.nickname}님 안녕하세요.</p>
           <button onClick={() => navigate('/home')}>홈으로</button>
           {userInfo.accessToken ? (

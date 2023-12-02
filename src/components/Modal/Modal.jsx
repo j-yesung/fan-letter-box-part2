@@ -12,7 +12,6 @@ const Modal = ({ isOpen, closeModal, id }) => {
   const userInfo = JSON.parse(localStorage.getItem('userInfo'));
   const editContentRef = useRef();
   const modalRef = useRef();
-  // console.log('userInfo: ', userInfo);
 
   useEffect(() => {
     if (id && fanLetterBox) {
