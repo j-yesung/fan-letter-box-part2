@@ -20,10 +20,11 @@ const Login = () => {
       const response = await API.post('/login', { id: idRef.current.value, password: pwRef.current.value });
       const userInfo = response.data;
       dispatch(setUserInfo(userInfo));
-      // 토큰의 만료 시간 설정 (예: 현재 시간 + 1시간)
-      // const expirationTime = new Date().getTime() + 3600000;
+      // 토큰의 만료 시간 설정 (예: 현재 시간 + 1시간) -> 60000은 1분
+      const expirationTime = new Date().getTime() + 600000;
       // TODO : 토큰 만료 기간을 로컬에 분리 저장
       localStorage.setItem('userInfo', JSON.stringify(userInfo));
+      localStorage.setItem('tokenExpitationTime', JSON.stringify(expirationTime));
       toast.success(`${response.data.nickname}님 반가워요!`);
       setTimeout(() => {
         navigate('/home');

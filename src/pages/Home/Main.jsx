@@ -1,6 +1,5 @@
 import FanLetter from 'components/Form/FanLetter';
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { members } from 'util/member';
 
@@ -29,34 +28,12 @@ const IMG = styled.div`
 `;
 
 const Main = () => {
-  const navigate = useNavigate();
   const [activeMember, setActiveMember] = useState('민지');
-  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
   const handleClickActive = name => {
     if (name === activeMember) return;
     setActiveMember(name === activeMember ? null : name);
   };
-
-  /**
-   * 토큰 함수들 따로 유틸로 따로 빼자.
-   * @param {*} tokenInfo
-   * @returns
-   */
-
-  // 토큰이 만료되었는지 확인하는 함수
-  // const isTokenExpired = tokenInfo => {
-  //   const currentTime = new Date().getTime();
-  //   return currentTime > tokenInfo.expirationTime;
-  // };
-
-  // 로그인 이후에 토큰 확인 로직 => 만료 시 로그인으로 이동
-  // const checkToken = () => {
-  //   console.log('토큰 유효 기간 확인 중...');
-  //   // 토큰이 만료되면 로그인으로 이동
-  //   if (isTokenExpired(userInfo.expirationTime)) navigate('/');
-  // };
-  // checkToken();
 
   return (
     <>
