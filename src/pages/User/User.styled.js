@@ -20,7 +20,7 @@ export const USER_CONTAINER = styled.div`
   box-shadow: 2px 2px 8px #ccc;
 `;
 export const PROFILE_CONTAINER = styled(USER_CONTAINER)`
-  height: 300px;
+  height: 320px;
 `;
 export const USER_TITLE = styled.h1`
   display: flex;
@@ -63,6 +63,10 @@ export const USER_NAME_WRAPPER = styled.div`
   margin-top: 20px;
   justify-content: center;
 `;
+export const USER_ID_WRAPPER = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 export const USER_NAME = styled(INPUT)``;
 export const USER_BUTTON = styled.button`
   width: 100%;
@@ -99,4 +103,13 @@ export const Button = styled.button`
   &:hover {
     transform: translateY(-2px);
   }
+`;
+export const MODIFY_BUTTON = styled.button`
+  width: 100%;
+  height: 30px;
+  border: none;
+  outline: none;
+  margin-top: 20px;
+  border-radius: 5px;
+  background-color: #39a7ff;
 `;

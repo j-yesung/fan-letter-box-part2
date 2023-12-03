@@ -45,7 +45,6 @@ const Profile = () => {
       });
       toast.success(`${response.data.message}`);
       const data = response.data;
-      // 로컬 스토리지 상태 값 변경 후, 다시 setItem 해주기
       if (data.hasOwnProperty('avatar')) {
         userInfo.avatar = data.avatar;
         userInfo.nickname = data.nickname;
@@ -55,8 +54,7 @@ const Profile = () => {
       localStorage.setItem('userInfo', JSON.stringify(userInfo));
       setNickname(userInfo.nickname);
     } catch (error) {
-      toast.error(`${error.response.data.message}`);
-      console.log(error.response.data.message);
+      console.log('error: ', error);
     }
   };
 
@@ -77,24 +75,29 @@ const Profile = () => {
                     <input type="file" ref={imgRef} accept="image/*" onChange={handleImageUpload} />
                   </S.INPUT_WRAPPER>
                 ) : (
-                  <S.USER_NAME_WRAPPER>
-                    <p>{nickname || userInfo.nickname}</p>
-                  </S.USER_NAME_WRAPPER>
+                  <>
+                    <S.USER_NAME_WRAPPER>
+                      <p>{nickname || userInfo.nickname}</p>
+                    </S.USER_NAME_WRAPPER>
+                    <S.USER_ID_WRAPPER>
+                      <p>{userInfo.userId}</p>
+                    </S.USER_ID_WRAPPER>
+                  </>
                 )}
                 <S.BUTTON_WRAPPER>
                   {isEditing ? (
                     <>
-                      <S.USER_BUTTON
+                      <S.MODIFY_BUTTON
                         onClick={() => {
                           setIsEditing(!isEditing);
                           handleChangeUserInfo();
                         }}
                       >
                         저장
-                      </S.USER_BUTTON>
+                      </S.MODIFY_BUTTON>
                     </>
                   ) : (
-                    <S.USER_BUTTON onClick={() => setIsEditing(!isEditing)}>수정</S.USER_BUTTON>
+                    <S.MODIFY_BUTTON onClick={() => setIsEditing(!isEditing)}>수정</S.MODIFY_BUTTON>
                   )}
                 </S.BUTTON_WRAPPER>
               </>
