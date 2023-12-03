@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setUserInfo } from 'redux/modules/authSlice';
 import styled from 'styled-components';
+import * as S from '../pages/User/User.styled';
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -12,7 +13,8 @@ const HeaderContainer = styled.header`
 `;
 const HeaderLogo = styled.h1`
   font-size: 30px;
-  font-weight: 400;
+  font-weight: 800;
+  font-family: 'establishRetrosansOTF';
   cursor: pointer;
 `;
 const HeaderButtons = styled.div`
@@ -36,20 +38,20 @@ const Header = () => {
   return (
     <>
       <HeaderContainer>
-        <HeaderLogo onClick={() => navigate('/home')}>New Jeans</HeaderLogo>
+        <HeaderLogo onClick={() => navigate('/home')}>NEW JEANS</HeaderLogo>
         <HeaderButtons>
           <TokenTimer /> {/* 토큰 만료 시간 컴포넌트 */}
           <p>{userInfo.nickname}님 안녕하세요.</p>
-          <button onClick={() => navigate('/home')}>홈으로</button>
+          <S.Button onClick={() => navigate('/home')}>메인으로</S.Button>
           {userInfo.accessToken ? (
             <>
-              <button onClick={() => navigate('/profile')}>마이페이지</button>
-              <button onClick={handleLogout}>로그아웃</button>
+              <S.Button onClick={() => navigate('/profile')}>마이페이지</S.Button>
+              <S.Button onClick={handleLogout}>로그아웃</S.Button>
             </>
           ) : (
             <>
-              <button onClick={() => navigate('/')}>로그인</button>
-              <button onClick={() => navigate('/signup')}>회원가입</button>
+              <S.Button onClick={() => navigate('/')}>로그인</S.Button>
+              <S.Button onClick={() => navigate('/signup')}>회원가입</S.Button>
             </>
           )}
         </HeaderButtons>
