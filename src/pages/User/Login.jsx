@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useState } from 'react';
 import * as S from './User.styled.js';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -10,14 +10,16 @@ import 'react-toastify/dist/ReactToastify.css';
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const idRef = useRef(null);
-  const pwRef = useRef(null);
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
+  const isButtonActive = id && password;
 
   // 로그인 진행
+  // TODO : Thunk로 할까?
   const handleLogin = async e => {
     e.preventDefault();
     try {
-      const response = await API.post('/login', { id: idRef.current.value, password: pwRef.current.value });
+      const response = await API.post('/login', { id, password });
       const userInfo = response.data;
       dispatch(setUserInfo(userInfo));
       // 토큰의 만료 시간 설정 (예: 현재 시간 + 1시간) -> 60000은 1분
@@ -37,16 +39,18 @@ const Login = () => {
   return (
     <>
       <S.USER_CONTAINER>
-        <S.USER_TITLE>로그인</S.USER_TITLE>
+        <S.USER_TITLE>NEW JEANS</S.USER_TITLE>
         <form>
           <div>
-            <S.INPUT ref={idRef} type="text" placeholder="아이디" required />
+            <S.INPUT type="text" placeholder="아이디" required onChange={e => setId(e.target.value)} />
           </div>
           <div>
-            <S.INPUT ref={pwRef} type="password" placeholder="비밀번호" required />
+            <S.INPUT type="password" placeholder="비밀번호" required onChange={e => setPassword(e.target.value)} />
           </div>
           <div>
-            <S.USER_BUTTON onClick={handleLogin}>로그인</S.USER_BUTTON>
+            <S.USER_BUTTON onClick={handleLogin} disabled={!isButtonActive} $active={isButtonActive}>
+              로그인
+            </S.USER_BUTTON>
           </div>
         </form>
         <S.CAPTION onClick={() => navigate('/signup')}>회원가입</S.CAPTION>

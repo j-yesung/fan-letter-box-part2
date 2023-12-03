@@ -26,6 +26,9 @@ export const USER_TITLE = styled.h1`
   display: flex;
   justify-content: center;
   margin-bottom: 30px;
+  font-size: 30px;
+  font-weight: 800;
+  font-family: 'establishRetrosansOTF';
 `;
 export const USER_IMG_WRAPPER = styled.div`
   position: relative;
@@ -68,11 +71,7 @@ export const USER_BUTTON = styled.button`
   outline: none;
   margin-top: 20px;
   border-radius: 5px;
-  background-color: #39a7ff;
-
-  &:hover {
-    background-color: #ccc;
-  }
+  background-color: ${props => (props.$active ? '#39a7ff' : '#F5F7F8')};
 `;
 export const BUTTON_WRAPPER = styled.div`
   /* margin-top: 130px; */
@@ -83,4 +82,21 @@ export const CAPTION = styled.div`
   margin: 20px;
   font-size: 13px;
   cursor: pointer;
+`;
+export const Button = styled.button`
+  display: inline-block;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+  background: #333;
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+  transition: transform 200ms, background 200ms;
+  &:hover {
+    transform: translateY(-2px);
+  }
 `;

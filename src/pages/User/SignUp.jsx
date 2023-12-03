@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../../apis/api/user';
 import * as S from './User.styled';
@@ -7,25 +7,21 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const idRef = useRef(null);
-  const pwRef = useRef(null);
-  const nameRef = useRef(null);
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
+  const [nickname, setNickname] = useState('');
+  const isButtonActive = id && password && nickname;
 
   // 회원가입 진행
   const handleSignUp = async e => {
     e.preventDefault();
 
     try {
-      const response = await API.post('/register', {
-        id: idRef.current.value,
-        password: pwRef.current.value,
-        nickname: nameRef.current.value,
-      });
-      console.log(response.data);
+      const response = await API.post('/register', { id, password, nickname });
       toast.success(`${response.data.message}`);
       setTimeout(() => {
         navigate('/');
-      }, 2000);
+      }, 3000);
     } catch (error) {
       toast.error(`${error.response.data.message}`);
       console.log(error.response.data.message);
@@ -37,19 +33,42 @@ const SignUp = () => {
   return (
     <>
       <S.USER_CONTAINER>
-        <S.USER_TITLE>회원가입</S.USER_TITLE>
+        <S.USER_TITLE>NEW JEANS</S.USER_TITLE>
         <form>
           <div>
-            <S.INPUT ref={idRef} type="text" minLength={4} maxLength={10} placeholder="아이디" required />
+            <S.INPUT
+              type="text"
+              minLength={4}
+              maxLength={10}
+              placeholder="아이디"
+              required
+              onChange={e => setId(e.target.value)}
+            />
           </div>
           <div>
-            <S.INPUT ref={pwRef} type="password" minLength={4} maxLength={15} placeholder="비밀번호" required />
+            <S.INPUT
+              type="password"
+              minLength={4}
+              maxLength={15}
+              placeholder="비밀번호"
+              required
+              onChange={e => setPassword(e.target.value)}
+            />
           </div>
           <div>
-            <S.INPUT ref={nameRef} type="text" minLength={1} maxLength={10} placeholder="닉네임" required />
+            <S.INPUT
+              type="text"
+              minLength={1}
+              maxLength={10}
+              placeholder="닉네임"
+              required
+              onChange={e => setNickname(e.target.value)}
+            />
           </div>
           <div>
-            <S.USER_BUTTON onClick={handleSignUp}>회원가입</S.USER_BUTTON>
+            <S.USER_BUTTON onClick={handleSignUp} disabled={!isButtonActive} $active={isButtonActive}>
+              회원가입
+            </S.USER_BUTTON>
           </div>
         </form>
         <S.CAPTION onClick={() => navigate('/')}>로그인</S.CAPTION>
