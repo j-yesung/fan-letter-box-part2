@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { __addLetter, __fetchLetter } from 'redux/modules/fanLetterSlice';
 import { getFormattedDate } from 'util/date';
@@ -42,20 +42,21 @@ const FanLetter = ({ activeMember }) => {
         <>
           <S.FormContainer>
             <S.Form>
-              <span>팬레터 보낼 멤버 선택 : </span>
+              <S.FormText>팬레터 보낼 멤버 선택 : </S.FormText>
               <select onChange={e => setNewLetter({ ...newLetter, member: e.target.value })}>
                 {members.map(item => (
                   <option key={item.id}>{item.name}</option>
                 ))}
               </select>
-              <span>{userInfo.nickname}</span>
-              <textarea
+              <S.FormText>{userInfo.nickname}</S.FormText>
+              <S.FormTextArea
                 placeholder="내용"
+                maxLength={100}
                 value={newLetter.content}
                 onChange={e => setNewLetter({ ...newLetter, content: e.target.value })}
               />
               <S.FormSubmitButtonWarpper>
-                <button onClick={handleAddLetter}>보내기</button>
+                <S.Button onClick={handleAddLetter}>보내기</S.Button>
               </S.FormSubmitButtonWarpper>
             </S.Form>
             <S.LetterContainer>

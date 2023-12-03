@@ -49,6 +49,11 @@ export const TextArea = styled.textarea`
   width: 100%;
   height: 100px;
   outline: none;
+  resize: none;
+  border-radius: 5px;
+  &:focus {
+    border: 2px solid #39a7ff;
+  }
 `;
 export const ModalCloseButton = styled.button`
   background: none;
@@ -65,4 +70,21 @@ export const ButtonsWrapper = styled.div`
   gap: 10px;
   padding-top: 20px;
   float: right;
+`;
+export const Button = styled.button`
+  display: inline-block;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+  background: ${props => props.$color};
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+  transition: transform 200ms, background 200ms;
+  &:hover {
+    transform: translateY(-2px);
+  }
 `;
