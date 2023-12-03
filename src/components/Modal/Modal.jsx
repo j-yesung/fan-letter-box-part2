@@ -68,15 +68,28 @@ const Modal = ({ isOpen, closeModal, id }) => {
               )}
             </div>
             <S.ButtonsWrapper>
-              {isEditing ? (
+              {/* 유저 정보의 아이디와 게시글의 담겨 있는 유저 아이디와 일치할 경우 수정 삭제 버튼 보여주기 */}
+              {userInfo.userId === findLetterData.userId && (
                 <>
-                  <button onClick={handleUpdateLetter}>수정완료</button>
-                  <button onClick={() => setIsEditing(false)}>취소</button>
-                </>
-              ) : (
-                <>
-                  <button onClick={() => handleDeleteLetter(findLetterData.id)}>삭제</button>
-                  <button onClick={() => handleEditLetter(editingLetter)}>수정</button>
+                  {isEditing ? (
+                    <>
+                      <S.Button $color={'#9ADE7B'} onClick={handleUpdateLetter}>
+                        수정완료
+                      </S.Button>
+                      <S.Button $color={'#FFA33C'} onClick={() => setIsEditing(false)}>
+                        취소
+                      </S.Button>
+                    </>
+                  ) : (
+                    <>
+                      <S.Button $color={'#F24C3D'} onClick={() => handleDeleteLetter(findLetterData.id)}>
+                        삭제
+                      </S.Button>
+                      <S.Button $color={'#9ADE7B'} onClick={() => handleEditLetter(editingLetter)}>
+                        수정
+                      </S.Button>
+                    </>
+                  )}
                 </>
               )}
             </S.ButtonsWrapper>

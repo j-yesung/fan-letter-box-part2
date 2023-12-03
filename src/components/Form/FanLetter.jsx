@@ -12,14 +12,15 @@ const FanLetter = ({ activeMember }) => {
   const fanLetterBox = useSelector(state => state.fanLetter.fanLetter);
   const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
-  /**
-   * TODO : ref 고려하기
-   */
-  const [newLetter, setNewLetter] = useState({ content: '', member: '민지', nickname: userInfo.nickname });
+  const [newLetter, setNewLetter] = useState({
+    content: '',
+    member: '민지',
+    nickname: userInfo.nickname,
+    userId: userInfo.userId,
+  });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [sendId, setSendId] = useState();
 
-  // 조회
   useEffect(() => {
     dispatch(__fetchLetter());
   }, [dispatch]);
