@@ -15,7 +15,6 @@ const Login = () => {
   const isButtonActive = id && password;
 
   // 로그인 진행
-  // TODO : Thunk로 할까?
   const handleLogin = async e => {
     e.preventDefault();
     try {
