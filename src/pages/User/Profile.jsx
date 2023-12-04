@@ -71,8 +71,11 @@ const Profile = () => {
                 </S.USER_IMG_WRAPPER>
                 {isEditing ? (
                   <S.INPUT_WRAPPER>
-                    <input type="text" ref={nicknameRef} defaultValue={nickname || userInfo.nickname} />
-                    <input type="file" ref={imgRef} accept="image/*" onChange={handleImageUpload} />
+                    <S.FILE_UPLOAD>
+                      <input type="text" ref={nicknameRef} defaultValue={nickname || userInfo.nickname} />
+
+                      <S.FILE_BOX type="file" ref={imgRef} accept="image/*" onChange={handleImageUpload} />
+                    </S.FILE_UPLOAD>
                   </S.INPUT_WRAPPER>
                 ) : (
                   <>
@@ -87,6 +90,7 @@ const Profile = () => {
                 <S.BUTTON_WRAPPER>
                   {isEditing ? (
                     <>
+                      <S.UPLOAD_BUTTON onClick={() => imgRef.current.click()}>업로드</S.UPLOAD_BUTTON>
                       <S.MODIFY_BUTTON
                         onClick={() => {
                           setIsEditing(!isEditing);

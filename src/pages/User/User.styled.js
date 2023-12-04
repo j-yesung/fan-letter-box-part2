@@ -113,3 +113,19 @@ export const MODIFY_BUTTON = styled.button`
   border-radius: 5px;
   background-color: #39a7ff;
 `;
+export const UPLOAD_BUTTON = styled(MODIFY_BUTTON)`
+  background-color: #ffad84;
+`;
+
+export const FILE_UPLOAD = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+export const FILE_BOX = styled.input`
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+`;
