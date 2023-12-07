@@ -3,6 +3,7 @@ import Main from 'pages/Home/Main';
 import Login from 'pages/User/Login';
 import Profile from 'pages/User/Profile';
 import SignUp from 'pages/User/SignUp';
+import React from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 const Router = () => {
@@ -21,4 +22,4 @@ const Router = () => {
   );
 };
 
-export default Router;
+export default React.memo(Router);
