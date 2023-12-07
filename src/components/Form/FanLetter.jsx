@@ -6,10 +6,12 @@ import { members } from 'util/member';
 import * as S from './FanLetter.styled';
 import shortid from 'shortid';
 import Modal from 'components/Modal/Modal';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { addLetter, getLetters } from 'apis/letters';
 
 const FanLetter = ({ activeMember }) => {
   const dispatch = useDispatch();
-  const fanLetterBox = useSelector(state => state.fanLetter.fanLetter);
+  // const fanLetterBox = useSelector(state => state.fanLetter.fanLetter);
   const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
   const [newLetter, setNewLetter] = useState({
@@ -20,13 +22,30 @@ const FanLetter = ({ activeMember }) => {
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [sendId, setSendId] = useState();
+  const { isLoading, isError, data } = useQuery('letters', getLetters);
+  const queryClient = useQueryClient();
+  const mutation = useMutation(addLetter, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('letters');
+    },
+  });
+  console.log('mutation: ', mutation);
 
-  useEffect(() => {
-    dispatch(__fetchLetter());
-  }, [dispatch]);
+  if (isLoading) {
+    return <p>로딩중입니다....!</p>;
+  }
 
-  const handleAddLetter = () => {
-    dispatch(__addLetter({ ...newLetter, id: shortid.generate(), date: getFormattedDate(new Date()) }));
+  if (isError) {
+    return <p>오류가 발생하였습니다...!</p>;
+  }
+
+  // useEffect(() => {
+  //   dispatch(__fetchLetter());
+  // }, [dispatch]);
+
+  const handleAddLetter = id => {
+    // dispatch(__addLetter({ ...newLetter, id: shortid.generate(), date: getFormattedDate(new Date()) }));
+    mutation.mutate(id, { ...newLetter, id: shortid.generate(), date: getFormattedDate(new Date()) });
     setNewLetter({ content: '', member: newLetter.member, name: userInfo.nickname });
   };
 
@@ -42,7 +61,7 @@ const FanLetter = ({ activeMember }) => {
         <>
           <S.FormContainer>
             <S.Form>
-              <S.FormText>팬레터 보낼 멤버 선택 : </S.FormText>
+              <S.FormText>팬레터 보낼 멤버 선택 : </S.FormText>ㅋ
               <select onChange={e => setNewLetter({ ...newLetter, member: e.target.value })}>
                 {members.map(item => (
                   <option key={item.id}>{item.name}</option>
@@ -60,8 +79,8 @@ const FanLetter = ({ activeMember }) => {
               </S.FormSubmitButtonWarpper>
             </S.Form>
             <S.LetterContainer>
-              {fanLetterBox &&
-                fanLetterBox
+              {data &&
+                data
                   .filter(item => item.member === activeMember)
                   .map(item => (
                     <S.Letters key={item.id} onClick={() => openModal(item.id)}>
@@ -82,4 +101,4 @@ const FanLetter = ({ activeMember }) => {
   );
 };
 
-export default FanLetter;
+export default React.memo(FanLetter);

@@ -2,23 +2,32 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { __deleteLetter, __updateLetter } from 'redux/modules/fanLetterSlice';
 import * as S from './Modal.styled';
+import { getLetters, updateLetter } from 'apis/letters';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 const Modal = ({ isOpen, closeModal, id }) => {
   const dispatch = useDispatch();
-  const fanLetterBox = useSelector(state => state.fanLetter.fanLetter);
+  // const fanLetterBox = useSelector(state => state.fanLetter.fanLetter);
   const [isEditing, setIsEditing] = useState(false);
   const [findLetterData, setFindLetterData] = useState();
+  const { isLoading, isError, data } = useQuery('letters', getLetters);
   const [editingLetter, setEditingLetter] = useState({ id: '', content: '' });
   const userInfo = JSON.parse(localStorage.getItem('userInfo'));
   const editContentRef = useRef();
   const modalRef = useRef();
+  const queryClient = useQueryClient();
+  const mutation = useMutation(updateLetter, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('letters');
+    },
+  });
 
   useEffect(() => {
-    if (id && fanLetterBox) {
-      const data = fanLetterBox.find(item => item.id === id);
-      setFindLetterData(data);
+    if (id && data) {
+      const modalData = data.find(item => item.id === id);
+      setFindLetterData(modalData);
     }
-  }, [id, fanLetterBox]);
+  }, [id, data]);
 
   // 수정
   const handleEditLetter = data => {
@@ -27,10 +36,14 @@ const Modal = ({ isOpen, closeModal, id }) => {
   };
 
   // 수정완료
-  const handleUpdateLetter = () => {
+  const handleUpdateLetter = async () => {
     const updatedLetter = { id: findLetterData.id, content: editContentRef.current.value };
-    dispatch(__updateLetter(updatedLetter));
-    setEditingLetter(null);
+    await updateLetter(updatedLetter);
+    // dispatch(__updateLetter(updatedLetter));
+    const updatedData = await getLetters(); // 업데이트된 데이터 가져오기
+    const modalData = updatedData.find(item => item.id === id);
+    setFindLetterData(modalData); // 업데이트된 데이터로 상태 업데이트
+    // setEditingLetter(null);
     setIsEditing(false);
   };
   // 삭제
