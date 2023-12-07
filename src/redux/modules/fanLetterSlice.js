@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import API from '../../apis/api/data';
+import API from '../../apis/data';
 
 // 등록
 export const __addLetter = createAsyncThunk('fanLetter/addLetter', async (payload, thunkAPI) => {

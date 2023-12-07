@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import * as S from './User.styled.js';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import API from '../../apis/api/user';
+import API from '../../apis/user.js';
 import { setUserInfo } from 'redux/modules/authSlice.js';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

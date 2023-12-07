@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import API from '../../apis/api/user';
+import API from '../../apis/user';
 import { useSelector } from 'react-redux';
 import userDefaultImg from 'assets/user.svg';
 import * as S from './User.styled.js';

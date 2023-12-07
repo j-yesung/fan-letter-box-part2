@@ -21,8 +21,6 @@ const TokenTimer = () => {
   }
 
   useEffect(() => {
-    console.log('토큰 만료 시간 확인 중...');
-
     const interval = setInterval(() => {
       const currentTime = new Date().getTime();
       const timeDifference = tokenExpitationTime - currentTime;
